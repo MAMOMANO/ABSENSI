@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Winnicode Absensi</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel="stylesheet" href="./src/output.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      #navItems .flex {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-item {
+        list-style-type: none;
+      }
+      .glass-effect {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .dark .glass-effect {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .dark .gradient-bg {
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+      }
+
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .nav-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-item.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .nav-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .nav-item:hover::before {
+        left: 100%;
+      }
+
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .stats-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      .stats-card.blue {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      }
+
+      .stats-card.green {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+
+      .stats-card.purple {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+
+      .floating-element {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .pulse-ring {
+        animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+      }
+
+      @keyframes pulse-ring {
+        0% {
+          transform: scale(0.33);
+        }
+        80%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .loading-dots {
+        display: inline-block;
+      }
+
+      .loading-dots::after {
+        content: "";
+        animation: dots 1.5s steps(5, end) infinite;
+      }
+
+      @keyframes dots {
+        0%,
+        20% {
+          content: "";
+        }
+        40% {
+          content: ".";
+        }
+        60% {
+          content: "..";
+        }
+        80%,
+        100% {
+          content: "...";
+        }
+      }
+      /* Chart Container Enhancements */
+      .chart-container {
+        position: relative;
+        height: 350px;
+        padding: 20px;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+      }
+
+      .chart-container:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      .dark .chart-container {
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+      }
+
+      /* Chart Canvas Styling */
+      #profesiChart,
+      #attendanceChart {
+        max-height: 300px;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+      }
+
+      /* Card Hover Effects */
+      .card-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid transparent;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-color: rgba(59, 130, 246, 0.1);
+      }
+
+      /* Dashboard Grid Layout Enhancement */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .chart-container {
+          height: 300px;
+          padding: 15px;
+        }
+      }
+
+      /* Loading State */
+      .chart-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+        background: linear-gradient(
+          90deg,
+          #f0f0f0 25%,
+          transparent 37%,
+          #f0f0f0 63%
+        );
+        background-size: 400% 100%;
+        animation: shimmer 1.5s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: -100% 50%;
+        }
+      }
+
+      /* Dark mode shimmer */
+      .dark .chart-loading {
+        background: linear-gradient(
+          90deg,
+          #374151 25%,
+          transparent 37%,
+          #374151 63%
+        );
+        background-size: 400% 100%;
+      }
+
+      /* Section Styling */
+      #sectionPengajuan,
+      #sectionManajemen {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      #sectionPengajuan:hover,
+      #sectionManajemen:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Header Styling */
+      h2 {
+        color: #4a5568;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-align: center;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      p {
+        text-align: center;
+        color: #718096;
+        font-size: 16px;
+        margin-bottom: 30px;
+      }
+
+      /* Form Styling */
+      #pengajuanForm {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 40px;
+        box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #4a5568;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      select,
+      input[type="date"],
+      textarea {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: white;
+        font-family: inherit;
+      }
+
+      select:focus,
+      input[type="date"]:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+        font-family: inherit;
+      }
+
+      /* Button Styling */
+      button[type="submit"] {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+      }
+
+      button[type="submit"]:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+      }
+
+      button[type="submit"]:active {
+        transform: translateY(-1px);
+      }
+
+      /* Table Styling */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+      }
+
+      thead {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      th {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 14px;
+      }
+
+      tbody tr {
+        transition: all 0.3s ease;
+      }
+
+      tbody tr:hover {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        transform: scale(1.02);
+      }
+
+      tbody tr:nth-child(even) {
+        background: #f8fafc;
+      }
+
+      /* Action Buttons */
+      table button {
+        padding: 8px 16px;
+        margin: 0 4px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+      }
+
+      table button:first-of-type {
+        background: linear-gradient(45deg, #48bb78, #38a169);
+        color: white;
+        box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+      }
+
+      table button:first-of-type:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+      }
+
+      table button:last-of-type {
+        background: linear-gradient(45deg, #f56565, #e53e3e);
+        color: white;
+        box-shadow: 0 5px 15px rgba(245, 101, 101, 0.3);
+      }
+
+      table button:last-of-type:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(245, 101, 101, 0.4);
+      }
+
+      table button:disabled {
+        background: #cbd5e0;
+        color: #a0aec0;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      /* Status Badges */
+      td:nth-child(5) {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 12px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+        }
+
+        #sectionPengajuan,
+        #sectionManajemen {
+          padding: 20px;
+          margin-bottom: 20px;
+        }
+
+        h2 {
+          font-size: 24px;
+        }
+
+        #pengajuanForm {
+          padding: 20px;
+        }
+
+        table {
+          font-size: 14px;
+        }
+
+        th,
+        td {
+          padding: 10px 8px;
+        }
+
+        table button {
+          padding: 6px 12px;
+          font-size: 10px;
+        }
+      }
+
+      /* Loading Animation */
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      tbody tr:has(td[colspan]) {
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      /* Hidden Class */
+      .hidden {
+        display: none;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(45deg, #5a67d8, #6b46c1);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900 min-h-screen transition-all duration-500"
+  >
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4 lg:p-6 max-w-7xl">
+      <!-- Header -->
+      <header class="text-center mb-8 relative">
+        <div
+          class="floating-element absolute top-0 left-1/4 w-20 h-20 bg-purple-200 dark:bg-purple-800 rounded-full opacity-20"
+        ></div>
+        <div
+          class="floating-element absolute top-10 right-1/4 w-16 h-16 bg-blue-200 dark:bg-blue-800 rounded-full opacity-30"
+          style="animation-delay: -2s"
+        ></div>
+
+        <div class="relative z-10">
+          <h1
+            class="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2"
+          >
+            Winnicode Absensi
+          </h1>
+          <p
+            class="text-lg lg:text-xl text-gray-600 dark:text-gray-300 font-medium"
+          >
+            🚀 Teknologi QR Code & Face Recognition
+          </p>
+          <div
+            class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full"
+          ></div>
+        </div>
+      </header>
+      <nav class="glass-effect rounded-2xl p-2 mb-8 shadow-xl" id="navItems">
+        <div class="flex flex-wrap justify-center gap-2">
+          <li
+            id="tabAbsensi"
+            data-section-target="absensi"
+            data-role="karyawan"
+            class="nav-item px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-white hover:bg-opacity-20"
+          >
+            📷 Absensi
+          </li>
+          <li
+            id="tabDaftar"
+            data-section-target="pendaftaran"
+            data-role="admin"
+            class="nav-item px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-white hover:bg-opacity-20"
+          >
+            👤 Pendaftaran
+          </li>
+          <li
+            id="tabDashboard"
+            data-section-target="dashboard"
+            data-role="admin"
+            class="nav-item px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-white hover:bg-opacity-20"
+          >
+            📊 Dashboard
+          </li>
+          <li
+            id="tabDetailAnggota"
+            data-section-target="detail-anggota"
+            data-role="admin"
+            class="nav-item px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-white hover:bg-opacity-20"
+          >
+            👥 Detail Anggota
+          </li>
+          <li
+            id="tabLaporan"
+            data-section-target="laporan"
+            data-role="admin"
+            class="nav-item px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-white hover:bg-opacity-20"
+          >
+            📊 Laporan
+          </li>
+          <li
+            id="tabPengajuan"
+            data-section-target="pengajuan"
+            data-role="karyawan"
+            class="nav-item px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-white hover:bg-opacity-20"
+          >
+            📝 Pengajuan
+          </li>
+          <li
+            id="tabManajemen"
+            data-section-target="manajemen-pengajuan"
+            data-role="admin"
+            class="nav-item px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-white hover:bg-opacity-20"
+          >
+            ⚙️ Manajemen Pengajuan
+          </li>
+          <li
+            id="btnProfile"
+            data-section-target="profil"
+            class="nav-item px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-white hover:bg-opacity-20"
+          >
+            👤 Profil
+          </li>
+          <li
+            id="btnLogout"
+            onclick="logout()"
+            class="nav-item px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer text-gray-700 dark:text-gray-300 hover:bg-white hover:bg-opacity-20"
+          >
+            🚪 Logout
+          </li>
+        </div>
+      </nav>
+
+      <!-- Absensi Section -->
+      <section
+        id="sectionAbsensi"
+        data-section-target="absensi"
+        data-role="karyawan"
+        data
+        class="animate-fade-in"
+      >
+        <div class="grid lg:grid-cols-3 gap-8">
+          <!-- Camera Section -->
+          <div class="lg:col-span-2">
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 card-hover"
+            >
+              <div class="text-center mb-6">
+                <h2
+                  class="text-3xl font-bold text-gray-800 dark:text-white mb-2"
+                >
+                  Absensi Wajah
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300">
+                  Arahkan wajah Anda ke kamera untuk absensi otomatis
+                </p>
+              </div>
+
+              <div class="relative mb-6">
+                <video
+                  id="preview"
+                  class="w-full rounded-xl shadow-lg hidden"
+                ></video>
+                <div
+                  id="cameraPlaceholder"
+                  class="w-full h-80 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-xl flex flex-col items-center justify-center"
+                >
+                  <div
+                    class="w-24 h-24 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center mb-4"
+                  >
+                    <svg
+                      class="w-12 h-12 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <p class="text-gray-500 dark:text-gray-400 font-medium">
+                    Kamera belum aktif
+                  </p>
+                  <p class="text-sm text-gray-400 dark:text-gray-500">
+                    Klik tombol untuk mengaktifkan
+                  </p>
+                </div>
+
+                <!-- Scan Animation -->
+                <div id="scanAnimation" class="absolute inset-0 hidden">
+                  <div
+                    class="pulse-ring absolute inset-4 border-4 border-green-400 rounded-xl opacity-75"
+                  ></div>
+                  <div
+                    class="pulse-ring absolute inset-8 border-4 border-green-400 rounded-xl opacity-50"
+                    style="animation-delay: 0.5s"
+                  ></div>
+                </div>
+              </div>
+
+              <p
+                id="loadingScan"
+                class="text-center text-blue-600 dark:text-blue-400 font-medium hidden"
+              >
+                <span class="loading-dots">Sedang memindai wajah</span>
+              </p>
+
+              <div class="flex justify-center space-x-4">
+                <button
+                  id="startCamera"
+                  class="btn-primary px-8 py-3 text-white rounded-xl font-semibold shadow-lg"
+                >
+                  🎥 Aktifkan Kamera
+                </button>
+                <button
+                  id="stopCamera"
+                  class="px-8 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 shadow-lg hidden"
+                >
+                  ⏹️ Matikan Kamera
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- fokuss uiiii besok -->
+
+          <!-- Stats Section -->
+          <div class="space-y-6">
+            <div class="stats-card text-white rounded-2xl p-6 shadow-lg">
+              <h3 class="text-lg font-semibold mb-2">📅 Hari Ini</h3>
+              <p class="text-3xl font-bold" id="todayDate">1 Juli 2025</p>
+              <p class="text-sm opacity-90">Selasa</p>
+            </div>
+
+            <!-- <div class="stats-card blue text-white rounded-2xl p-6 shadow-lg">
+              <h3 class="text-lg font-semibold mb-2">👥 Total Hadir</h3>
+              <p class="text-3xl font-bold">24</p>
+              <p class="text-sm opacity-90">dari 30 karyawan</p>
+            </div> -->
+
+            <div class="stats-card green text-white rounded-2xl p-6 shadow-lg">
+              <h3 class="text-lg font-semibold mb-2">✅ Status</h3>
+              <p class="text-xl font-bold">Sistem Aktif</p>
+              <p class="text-sm opacity-90">Siap digunakan</p>
+            </div>
+          </div>
+        </div>
+        <button
+          id="submitAbsensi"
+          class="bg-blue-500 text-white px-4 py-2 rounded hidden"
+        >
+          Kirim Absensi
+        </button>
+      </section>
+
+      <div
+        id="sectionPengajuan"
+        data-section-target="pengajuan"
+        data-role="karyawan"
+        class="hidden"
+      >
+        <h2>📝 Pengajuan Izin/Sakit</h2>
+        <p>Lengkapi formulir untuk mengajukan izin atau sakit</p>
+        <form
+          id="pengajuanForm"
+          onsubmit="event.preventDefault(); submitPengajuan();"
+        >
+          <label for="jenis">Jenis:</label>
+          <select id="jenis" required>
+            <option value="izin">Izin</option>
+            <option value="sakit">Sakit</option>
+          </select>
+          <label for="tanggal_mulai">Tanggal Mulai:</label>
+          <input type="date" id="tanggal_mulai" required />
+          <label for="tanggal_selesai">Tanggal Selesai:</label>
+          <input type="date" id="tanggal_selesai" required />
+          <label for="keterangan">Keterangan:</label>
+          <textarea id="keterangan"></textarea>
+          <button type="submit">Ajukan</button>
+        </form>
+
+        <h2>📋 Daftar Pengajuan Saya</h2>
+        <table id="userPengajuanTable">
+          <thead>
+            <tr>
+              <th>Jenis</th>
+              <th>Tanggal Mulai</th>
+              <th>Tanggal Selesai</th>
+              <th>Keterangan</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div
+        id="sectionManajemen"
+        data-section-target="manajemen-pengajuan"
+        data-role="admin"
+        class="hidden"
+      >
+        <h2>⚙️ Manajemen Pengajuan</h2>
+        <p>Kelola pengajuan izin/sakit karyawan</p>
+        <table id="pengajuanTable">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Jenis</th>
+              <th>Tanggal Mulai</th>
+              <th>Tanggal Selesai</th>
+              <th>Keterangan</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- Pendaftaran Section -->
+      <section
+        id="sectionDaftar"
+        data-section-target="pendaftaran"
+        data-role="admin"
+        class="animate-fade-in hidden"
+      >
+        <div class="grid lg:grid-cols-2 gap-8">
+          <!-- Registration Form -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 card-hover"
+          >
+            <div class="mb-6">
+              <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+                Daftar Karyawan Baru
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300">
+                Lengkapi formulir untuk menambahkan karyawan baru
+              </p>
+            </div>
+
+            <form id="form-karyawan" class="space-y-6">
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    placeholder="Masukan Nama Lengkap"
+                    type="text"
+                    for="nama"
+                    required
+                    >Nama Lengkap</label
+                  >
+                  <input
+                    id="nama"
+                    name="nama"
+                    type="text"
+                    placeholder="Masukkan nama lengkap"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    for="nip"
+                    name="nip"
+                    type="text"
+                    placeholder="Masukan Nip"
+                    required
+                    >NIP</label
+                  >
+                  <input
+                    id="nip"
+                    type="text"
+                    placeholder="Nomor Induk Pegawai"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  />
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    for="username"
+                    name="username"
+                    type="text"
+                    placeholder="Username Untuk Login"
+                    required
+                    >Username</label
+                  >
+                  <input
+                    id="username"
+                    type="text"
+                    placeholder="Username untuk login"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >Password</label
+                  >
+                  <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Password login"
+                    required
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  />
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    for="role"
+                    >Role</label
+                  >
+                  <select
+                    id="role"
+                    name="role"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                    required
+                  >
+                    <option value="">Pilih Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="karyawan">Karyawan</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    for="profesi"
+                    >Profesi</label
+                  >
+                  <select
+                    id="profesi"
+                    name="profesi"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  >
+                    <option value="">Pilih Profesi</option>
+                    <option value="Laravel Developer">Laravel Developer</option>
+                    <option value="Fullstack Web Developer">
+                      Fullstack Web Developer
+                    </option>
+                    <option value="Copywriter">Copywriter</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Photo Section -->
+              <div
+                class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6"
+              >
+                <h3
+                  class="text-lg font-semibold mb-4 text-gray-800 dark:text-white"
+                >
+                  📸 Foto Profil
+                </h3>
+                <video
+                  id="kameraDaftar"
+                  class="w-full max-w-md rounded-lg hidden mb-4"
+                ></video>
+                <canvas id="canvasDaftar" class="hidden"></canvas>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                  <button
+                    id="ambilFoto"
+                    type="button"
+                    class="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-300 font-semibold"
+                  >
+                    📷 Ambil Foto
+                  </button>
+                  <label
+                    class="px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all duration-300 font-semibold cursor-pointer text-center"
+                  >
+                    📁 Upload Foto
+                    <input
+                      id="fotoUpload"
+                      name="foto"
+                      type="file"
+                      accept="image/*"
+                      class="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full btn-primary py-4 text-white rounded-xl font-bold text-lg shadow-lg"
+              >
+                ✨ Daftarkan Karyawan
+              </button>
+
+              <div class="text-center">
+                <p id="messageDaftar" class="mt-2"></p>
+                <p
+                  id="loadingDaftar"
+                  class="mt-2 text-blue-600 dark:text-blue-400 font-medium hidden"
+                >
+                  <span class="loading-dots">Memproses pendaftaran</span>
+                </p>
+              </div>
+            </form>
+          </div>
+
+          <!-- QR Code Section -->
+          <div class="space-y-8">
+            <!-- Generated QR -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 card-hover"
+            >
+              <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+                🎫 QR Code Karyawan
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300 mb-6">
+                QR Code akan muncul setelah pendaftaran berhasil
+              </p>
+
+              <div
+                id="qrPlaceholder"
+                class="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-xl flex flex-col items-center justify-center mb-6"
+              >
+                <div
+                  class="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-lg flex items-center justify-center mb-4"
+                >
+                  <svg
+                    class="w-8 h-8 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M12 12h4.01M12 12v.01M12 12v.01"
+                    ></path>
+                  </svg>
+                </div>
+                <p
+                  id="qrCodeText"
+                  class="text-gray-500 dark:text-gray-400 font-medium"
+                >
+                  QR Code akan muncul di sini
+                </p>
+              </div>
+
+              <img
+                id="generatedQR"
+                class="w-full rounded-xl shadow-lg hidden mb-6"
+                alt="QR Code"
+              />
+              <a
+                id="downloadBtn"
+                href=""
+                download="qr-code.png"
+                class="w-full px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all duration-300 font-semibold text-center hidden"
+              >
+                💾 Download QR Code
+              </a>
+            </div>
+            <!-- Search QR -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 card-hover"
+            >
+              <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">
+                🔍 Cari QR Code
+              </h3>
+              <form id="form-cari-qr" class="space-y-4">
+                <input
+                  id="nipCari"
+                  type="text"
+                  placeholder="Masukkan NIP karyawan"
+                  class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                />
+                <button
+                  type="submit"
+                  class="w-full px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-300 font-semibold"
+                >
+                  🔎 Tampilkan QR Code
+                </button>
+              </form>
+              <div class="text-center mt-4">
+                <p id="messageCari" class="mt-2"></p>
+                <p
+                  id="loadingCari"
+                  class="mt-2 text-blue-600 dark:text-blue-400 font-medium hidden"
+                >
+                  <span class="loading-dots">Mencari data</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        id="sectionDashboard"
+        data-section-target="dashboard"
+        data-role="admin"
+        class="animate-fade-in hidden"
+      >
+        <div class="mb-8">
+          <div class="flex items-center gap-4 mb-4">
+            <div
+              class="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl"
+            >
+              <span class="text-2xl">📈</span>
+            </div>
+            <div>
+              <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-1">
+                Dashboard Absensi
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300">
+                Analisis dan statistik absensi karyawan
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Profesi Chart Card -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 card-hover border border-gray-100 dark:border-gray-700"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div
+                  class="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-lg"
+                >
+                  <span class="text-lg">👥</span>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+                    Total Anggota per Profesi
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    Distribusi karyawan berdasarkan profesi
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="profesiChart" class="w-full"></canvas>
+            </div>
+          </div>
+
+          <!-- Attendance Chart Card -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 card-hover border border-gray-100 dark:border-gray-700"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div
+                  class="bg-gradient-to-r from-green-500 to-emerald-500 p-2 rounded-lg"
+                >
+                  <span class="text-lg">📊</span>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+                    Status Absensi Hari Ini
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    Tingkat kehadiran karyawan hari ini
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="attendanceChart" class="w-full"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <div
+            class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-white text-xl font-bold">Total Karyawan</p>
+                <p class="text-2xl font-bold text-white" id="totalEmployees">
+                  -
+                </p>
+              </div>
+              <div class="bg-blue-400 bg-opacity-30 p-3 rounded-lg">
+                <span class="text-2xl">👨‍💼</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-green-100 text-xl font-bold">Hadir Hari Ini</p>
+                <p class="text-2xl font-bold text-white" id="presentToday">-</p>
+              </div>
+              <div class="bg-green-400 bg-opacity-30 p-3 rounded-lg">
+                <span class="text-2xl">✅</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-6 text-white"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-red-100 text-xl font-bold">Tidak Hadir</p>
+                <p class="text-2xl font-bold text-white" id="absentToday">-</p>
+              </div>
+              <div class="bg-red-200 bg-opacity-30 p-3 rounded-lg">
+                <span class="text-2xl">❌</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Detail Anggota Section -->
+      <section
+        id="sectionDetailAnggota"
+        data-section-target="detail-anggota"
+        data-role="admin"
+        class="animate-fade-in hidden"
+      >
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+            👥 Detail Anggota
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300">
+            Kelola data karyawan dan informasi detail
+          </p>
+        </div>
+
+        <div
+          class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden"
+        >
+          <div class="overflow-x-auto">
+            <table id="memberList" class="w-full">
+              <thead class="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    ID
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Nama
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    NIP
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Profesi
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Foto
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    QR Code
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Aksi
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+              >
+                <!-- Table content will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <form
+            id="editMemberForm"
+            class="p-8 border-t border-gray-200 dark:border-gray-700 hidden"
+          >
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-6">
+              ✏️ Edit Data Anggota
+            </h3>
+            <div class="space-y-6">
+              <input type="hidden" id="editId" name="id" />
+
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >Nama</label
+                  >
+                  <input
+                    type="text"
+                    id="editNama"
+                    name="nama"
+                    required
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >NIP</label
+                  >
+                  <input
+                    type="text"
+                    id="editNip"
+                    name="nip"
+                    required
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  />
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-3 gap-4">
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >Profesi</label
+                  >
+                  <select
+                    id="editProfesi"
+                    name="profesi"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  >
+                    <option value="">Pilih Profesi</option>
+                    <option value="Laravel Developer">Laravel Developer</option>
+                    <option value="Fullstack Web Developer">
+                      Fullstack Web Developer
+                    </option>
+                    <option value="Copywriter">Copywriter</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >Username</label
+                  >
+                  <input
+                    type="text"
+                    id="editUsername"
+                    name="username"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >Role</label
+                  >
+                  <select
+                    id="editRole"
+                    name="role"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  >
+                    <option value="admin">Admin</option>
+                    <option value="karyawan">Karyawan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >Password (kosongkan jika tidak ingin ubah)</label
+                  >
+                  <input
+                    type="password"
+                    id="editPassword"
+                    name="password"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >Foto Baru</label
+                  >
+                  <input
+                    id="editFoto"
+                    name="foto"
+                    type="file"
+                    accept="image/*"
+                    class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                  />
+                </div>
+              </div>
+              <div id="photoPreview" class="mt-2 hidden">
+                <img
+                  id="previewImage"
+                  src=""
+                  alt="Preview"
+                  class="w-32 h-32 object-cover rounded"
+                />
+              </div>
+              <div id="messageDetail" class="mt-4"></div>
+              <div class="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  id="cancelEditBtn"
+                  class="px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-all duration-300 font-semibold"
+                >
+                  ❌ Batal
+                </button>
+                <button
+                  type="submit"
+                  class="px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all duration-300 font-semibold"
+                >
+                  💾 Simpan Perubahan
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Laporan Section -->
+      <section
+        id="sectionLaporan"
+        data-section-target="laporan"
+        data-role="admin"
+        class="animate-fade-in hidden"
+      >
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+            📊 Laporan Absensi
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300">
+            Analisis dan laporan komprehensif absensi karyawan
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+          <!-- Daily Report -->
+          <div
+            class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 card-hover"
+          >
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-6">
+              📅 Absensi Harian
+              <span class="text-lg font-bold text-blue-600 dark:text-blue-400">
+                (Hari Ini: <span id="currentDate">1 Juli 2025</span>)
+              </span>
+            </h3>
+
+            <div class="mb-6">
+              <label
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >Filter Profesi</label
+              >
+              <div class="flex gap-4">
+                <select
+                  id="filterProfesi"
+                  class="flex-1 p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-300"
+                >
+                  <option value="">Semua Profesi</option>
+                  <option value="Laravel Developer">Laravel Developer</option>
+                  <option value="Fullstack Web Developer">
+                    Fullstack Web Developer
+                  </option>
+                  <option value="Copywriter">Copywriter</option>
+                </select>
+                <button
+                  onclick="generateDailyReport()"
+                  class="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-300 font-semibold"
+                >
+                  📊 Tampilkan
+                </button>
+              </div>
+            </div>
+
+            <div
+              id="dailyReport"
+              class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 min-h-64"
+            >
+              <p class="text-gray-500 dark:text-gray-400 text-center">
+                Klik tombol "Tampilkan" untuk melihat laporan harian
+              </p>
+            </div>
+          </div>
+
+          <!-- Weekly Report & Actions -->
+          <div class="space-y-6">
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 card-hover"
+            >
+              <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">
+                📈 Laporan Mingguan
+              </h3>
+              <button
+                onclick="exportWeeklyReport()"
+                class="w-full px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all duration-300 font-semibold"
+              >
+                📥 Ekspor ke XLSX
+              </button>
+              <div
+                id="weeklyReport"
+                class="mt-4 text-sm text-gray-600 dark:text-gray-300"
+              ></div>
+            </div>
+
+            <div class="stats-card purple text-white rounded-2xl p-6 shadow-lg">
+              <h3 class="text-lg font-semibold mb-2">⏰ Waktu Real</h3>
+              <p class="text-6xl font-bold" id="currentTime"></p>
+              <p class="text-2xl opacity-90">WIB</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-6">
+          <p id="messageLaporan" class="text-gray-600 dark:text-gray-300"></p>
+        </div>
+      </section>
+
+      <!-- Profil Section -->
+      <section
+        id="sectionProfil"
+        data-section-target="profil"
+        class="animate-fade-in hidden"
+      >
+        <div class="max-w-2xl mx-auto">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden card-hover"
+          >
+            <!-- Profile Header -->
+            <div class="gradient-bg p-8 text-center">
+              <div
+                class="w-24 h-24 bg-white rounded-full mx-auto mb-4 flex items-center justify-center"
+              >
+                <img
+                  id="profilePhoto"
+                  src=""
+                  alt="Foto Profil"
+                  class="w-24 h-24 object-cover rounded-full hidden"
+                />
+                <svg
+                  class="w-12 h-12 text-gray-400 hidden"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  id="profilePlaceholder"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  ></path>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-white mb-2">
+                👤 Profil Pengguna
+              </h2>
+              <p class="text-white opacity-90">
+                Informasi akun dan data personal
+              </p>
+            </div>
+            <!-- Profile Content -->
+            <div class="p-8 space-y-6">
+              <div class="grid gap-6">
+                <div
+                  class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl"
+                >
+                  <div
+                    class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4"
+                  >
+                    <svg
+                      class="w-6 h-6 text-blue-600 dark:text-blue-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                      Nama Lengkap
+                    </p>
+                    <p
+                      class="text-lg font-semibold text-gray-800 dark:text-white"
+                      id="profilNama"
+                    >
+                      -
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl"
+                >
+                  <div
+                    class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4"
+                  >
+                    <svg
+                      class="w-6 h-6 text-green-600 dark:text-green-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">NIP</p>
+                    <p
+                      class="text-lg font-semibold text-gray-800 dark:text-white"
+                      id="profilNIP"
+                    >
+                      -
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl"
+                >
+                  <div
+                    class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mr-4"
+                  >
+                    <svg
+                      class="w-6 h-6 text-purple-600 dark:text-purple-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Role</p>
+                    <p
+                      class="text-lg font-semibold text-gray-800 dark:text-white"
+                      id="profilRole"
+                    >
+                      -
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-xl"
+                >
+                  <div
+                    class="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mr-4"
+                  >
+                    <svg
+                      class="w-6 h-6 text-orange-600 dark:text-orange-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                      Profesi
+                    </p>
+                    <p
+                      class="text-lg font-semibold text-gray-800 dark:text-white"
+                      id="profilProfesi"
+                    >
+                      -
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <button
+      id="themeToggle"
+      class="fixed bottom-6 right-6 p-4 bg-white dark:bg-gray-800 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 z-40"
+    >
+      <svg
+        id="sunIcon"
+        class="w-6 h-6 text-yellow-500 hidden"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+        ></path>
+      </svg>
+      <svg
+        id="moonIcon"
+        class="w-6 h-6 text-gray-600 dark:text-gray-300"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+        ></path>
+      </svg>
+    </button>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/json2csv@5.0.7/dist/json2csv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

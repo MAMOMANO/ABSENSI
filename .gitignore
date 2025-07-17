@@ -1,0 +1,31 @@
+# Virtual environments (Python)
+.venv/
+pyvenv.cfg
+
+.venv/
+venv/
+
+
+# Node.js dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Uploaded files
+uploads/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Tailwind CSS output (opsional, karena bisa dihasilkan ulang)
+src/output.css
+
+# Log files or temporary files (jika ada)
+*.log
+*.tmp
