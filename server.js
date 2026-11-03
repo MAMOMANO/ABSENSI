@@ -967,7 +967,7 @@ app.post("/api/refresh", async (req, res) => {
 });
 
 // Routing statis untuk file frontend
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname)));
 // ... (dependensi dan middleware sebelumnya)
 
 app.get("/admin/absensi", verifyToken, requireAdmin, async (req, res) => {
